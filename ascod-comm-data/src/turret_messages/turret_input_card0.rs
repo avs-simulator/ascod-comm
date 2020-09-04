@@ -14,7 +14,7 @@ pub struct TurretInputCard0 {
     #[bitfield(name = "gunner_control_elevation", ty = "libc::uint16_t", bits = "50..=59")]
     #[bitfield(name = "gunner_control_traverse", ty = "libc::uint16_t", bits = "60..=69")]
     #[bitfield(name = "manual_traverse", ty = "libc::uint16_t", bits = "70..=79")]
-    ushort_fields: [u8; SIZE_TURRET_INPUT_CARD0],
+    raw: [u8; SIZE_TURRET_INPUT_CARD0],
 }
 
 assert_eq_size!(TurretInputCard0, [u8; SIZE_TURRET_INPUT_CARD0]);
@@ -22,7 +22,7 @@ assert_eq_size!(TurretInputCard0, [u8; SIZE_TURRET_INPUT_CARD0]);
 impl Default for TurretInputCard0 {
     fn default() -> Self {
         Self {
-            ushort_fields: [0; SIZE_TURRET_INPUT_CARD0],
+            raw: [0; SIZE_TURRET_INPUT_CARD0],
         }
     }
 }

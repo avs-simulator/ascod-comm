@@ -1,5 +1,6 @@
 #![feature(untagged_unions)]
 
+pub mod driver_messages;
 pub mod turret_messages;
 
 mod udp_message;
