@@ -16,8 +16,8 @@ pub struct TurretInputCard6 {
     #[bitfield(name = "button_brightness_up_gmu", ty = "libc::uint16_t", bits = "7..=7")]
     #[bitfield(name = "button_power_gmu", ty = "libc::uint16_t", bits = "8..=8")]
     #[bitfield(name = "button_lrf_gunner_control", ty = "libc::uint16_t", bits = "9..=9")]
-    #[bitfield(name = "button_picu_kiri_gunner_control", ty = "libc::uint16_t", bits = "10..=10")]
-    #[bitfield(name = "button_picu_kanan_gunner_control", ty = "libc::uint16_t", bits = "11..=11")]
+    #[bitfield(name = "button_picu_left_gunner_control", ty = "libc::uint16_t", bits = "10..=10")]
+    #[bitfield(name = "button_picu_right_gunner_control", ty = "libc::uint16_t", bits = "11..=11")]
     ushort_fields: [u8; SIZE_TURRET_INPUT_CARD6],
 }
 

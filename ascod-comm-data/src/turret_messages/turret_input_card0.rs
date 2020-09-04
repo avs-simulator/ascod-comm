@@ -7,8 +7,8 @@ pub const SIZE_TURRET_INPUT_CARD0: usize = 10;
 #[derive(BitfieldStruct, Clone, Debug)]
 pub struct TurretInputCard0 {
     #[bitfield(name = "tracking_dual_override", ty = "libc::uint16_t", bits = "0..=9")]
-    #[bitfield(name = "dual_overide_x", ty = "libc::uint16_t", bits = "10..=19")]
-    #[bitfield(name = "dual_overide_y", ty = "libc::uint16_t", bits = "20..=29")]
+    #[bitfield(name = "dual_override_x", ty = "libc::uint16_t", bits = "10..=19")]
+    #[bitfield(name = "dual_override_y", ty = "libc::uint16_t", bits = "20..=29")]
     #[bitfield(name = "volume_radio_commander", ty = "libc::uint16_t", bits = "30..=39")]
     #[bitfield(name = "tracking_gunner_control", ty = "libc::uint16_t", bits = "40..=49")]
     #[bitfield(name = "gunner_control_elevation", ty = "libc::uint16_t", bits = "50..=59")]

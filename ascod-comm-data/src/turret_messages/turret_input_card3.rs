@@ -15,9 +15,9 @@ pub struct TurretInputCard3 {
     #[bitfield(name = "button_brightness_up_cmu", ty = "libc::uint16_t", bits = "6..=6")]
     #[bitfield(name = "button_power_cmu", ty = "libc::uint16_t", bits = "7..=7")]
     #[bitfield(name = "selector_camera_panoramic_cmu", ty = "libc::uint16_t", bits = "8..=8")]
-    #[bitfield(name = "button_lrf_dual_overide", ty = "libc::uint16_t", bits = "9..=9")]
-    #[bitfield(name = "button_picu_dual_overide", ty = "libc::uint16_t", bits = "10..=10")]
-    #[bitfield(name = "button_palm_grip_dual_overide", ty = "libc::uint16_t", bits = "11..=11")]
+    #[bitfield(name = "button_lrf_dual_override", ty = "libc::uint16_t", bits = "9..=9")]
+    #[bitfield(name = "button_picu_dual_override", ty = "libc::uint16_t", bits = "10..=10")]
+    #[bitfield(name = "button_palm_grip_dual_override", ty = "libc::uint16_t", bits = "11..=11")]
     ushort_fields: [u8; SIZE_TURRET_INPUT_CARD3],
 }
 
