@@ -4,7 +4,7 @@ use static_assertions::assert_eq_size;
 pub const SIZE_TURRET_INPUT_CARD4: usize = 2;
 
 #[repr(C, packed)]
-#[derive(BitfieldStruct)]
+#[derive(BitfieldStruct, Clone, Debug)]
 pub struct TurretInputCard4 {
     #[bitfield(name = "BUTTON_FAN_COMMANDER_CONTROL_BOX", ty = "libc::uint16_t", bits = "0..=0")]
     #[bitfield(name = "SAKLAR_PCS_COMMANDER_CONTROL_BOX", ty = "libc::uint16_t", bits = "1..=1")]

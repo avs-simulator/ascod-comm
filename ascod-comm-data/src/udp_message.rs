@@ -9,6 +9,8 @@ pub const SIZE_MAX_UDP_MESSAGE_BUFFER: usize = 1460;
 pub const SIZE_UDP_MESSAGE_BUFFER_HEADER: usize = 8;
 pub const SIZE_MAX_UDP_MESSAGE_BUFFER_DATA: usize = SIZE_MAX_UDP_MESSAGE_BUFFER - SIZE_UDP_MESSAGE_BUFFER_HEADER;
 
+pub type UDPMessageTuple = (Ipv4Addr, UDPMessageCode, Option<Vec<u8>>);
+
 #[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
 pub enum UDPMessageCode {
     Input(u8),
@@ -45,8 +47,8 @@ impl Default for UDPMessageBuffer {
     }
 }
 
-impl From<(Ipv4Addr, UDPMessageCode, Option<Vec<u8>>)> for UDPMessageBuffer {
-    fn from(source_tuple: (Ipv4Addr, UDPMessageCode, Option<Vec<u8>>)) -> Self {
+impl From<UDPMessageTuple> for UDPMessageBuffer {
+    fn from(source_tuple: UDPMessageTuple) -> Self {
         let mut instance = UDPMessageBuffer::default();
 
         match source_tuple.2 {
@@ -66,8 +68,8 @@ impl From<(Ipv4Addr, UDPMessageCode, Option<Vec<u8>>)> for UDPMessageBuffer {
     }
 }
 
-impl Into<(Ipv4Addr, UDPMessageCode, Option<Vec<u8>>)> for UDPMessageBuffer {
-    fn into(self) -> (Ipv4Addr, UDPMessageCode, Option<Vec<u8>>) {
+impl Into<UDPMessageTuple> for UDPMessageBuffer {
+    fn into(self) -> UDPMessageTuple {
         let data_vec = match self.get_data_slice() {
             None => None,
             Some(data_slice) => Some(data_slice.to_vec()),
@@ -263,7 +265,7 @@ impl UDPMessageBuffer {
         Some(&self.raw[8..(8 + data_length as usize)])
     }
 
-    pub fn into_tuple(self) -> (Ipv4Addr, UDPMessageCode, Option<Vec<u8>>) {
+    pub fn into_tuple(self) -> UDPMessageTuple {
         self.into()
     }
 }
