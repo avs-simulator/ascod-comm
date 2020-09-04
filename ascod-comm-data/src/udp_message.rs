@@ -5,9 +5,9 @@ use std::net::Ipv4Addr;
 use std::ops::{Index, Range, RangeFull, RangeTo};
 use std::vec::IntoIter;
 
-pub const MAX_MESSAGE_LENGTH: usize = 1460;
-pub const HEADER_LENGTH: usize = 8;
-pub const MAX_DATA_LENGTH: usize = MAX_MESSAGE_LENGTH - HEADER_LENGTH;
+pub const SIZE_MAX_UDP_MESSAGE_BUFFER: usize = 1460;
+pub const SIZE_UDP_MESSAGE_BUFFER_HEADER: usize = 8;
+pub const SIZE_MAX_UDP_MESSAGE_BUFFER_DATA: usize = SIZE_MAX_UDP_MESSAGE_BUFFER - SIZE_UDP_MESSAGE_BUFFER_HEADER;
 
 #[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
 pub enum UDPMessageCode {
@@ -34,13 +34,13 @@ impl UDPMessageCode {
 
 #[derive(Debug, Clone)]
 pub struct UDPMessageBuffer {
-    raw: [u8; MAX_MESSAGE_LENGTH],
+    raw: [u8; SIZE_MAX_UDP_MESSAGE_BUFFER],
 }
 
 impl Default for UDPMessageBuffer {
     fn default() -> Self {
         Self {
-            raw: [0; MAX_MESSAGE_LENGTH],
+            raw: [0; SIZE_MAX_UDP_MESSAGE_BUFFER],
         }
     }
 }
@@ -77,8 +77,8 @@ impl Into<(Ipv4Addr, UDPMessageCode, Option<Vec<u8>>)> for UDPMessageBuffer {
     }
 }
 
-impl Borrow<[u8; MAX_MESSAGE_LENGTH]> for UDPMessageBuffer {
-    fn borrow(&self) -> &[u8; MAX_MESSAGE_LENGTH] {
+impl Borrow<[u8; SIZE_MAX_UDP_MESSAGE_BUFFER]> for UDPMessageBuffer {
+    fn borrow(&self) -> &[u8; SIZE_MAX_UDP_MESSAGE_BUFFER] {
         &self.raw
     }
 }
@@ -126,7 +126,7 @@ impl IntoIterator for UDPMessageBuffer {
 
 impl UDPMessageBuffer {
     fn slice_has_header(slice: &[u8]) -> bool {
-        slice.len() >= HEADER_LENGTH
+        slice.len() >= SIZE_UDP_MESSAGE_BUFFER_HEADER
     }
 
     fn get_slice_data_length(slice: &[u8]) -> Option<usize> {
@@ -164,7 +164,7 @@ impl UDPMessageBuffer {
         instance
     }
 
-    pub fn into_inner(self) -> [u8; MAX_MESSAGE_LENGTH] {
+    pub fn into_inner(self) -> [u8; SIZE_MAX_UDP_MESSAGE_BUFFER] {
         self.raw
     }
 
@@ -175,14 +175,14 @@ impl UDPMessageBuffer {
     pub fn update_from_slice(&mut self, slice: &[u8]) -> bool {
         let slice_length = slice.len();
 
-        if slice_length > MAX_MESSAGE_LENGTH {
+        if slice_length > SIZE_MAX_UDP_MESSAGE_BUFFER {
             return false;
         }
 
         match UDPMessageBuffer::get_slice_data_length(slice) {
             None => false,
             Some(length) => {
-                if length != (slice_length - HEADER_LENGTH) {
+                if length != (slice_length - SIZE_UDP_MESSAGE_BUFFER_HEADER) {
                     return false;
                 }
 
@@ -203,7 +203,7 @@ impl UDPMessageBuffer {
     }
 
     pub fn set_data(&mut self, data: Option<&[u8]>) -> bool {
-        for i in HEADER_LENGTH..MAX_DATA_LENGTH {
+        for i in SIZE_UDP_MESSAGE_BUFFER_HEADER..SIZE_MAX_UDP_MESSAGE_BUFFER_DATA {
             self.raw[i] = 0;
         }
 
@@ -214,7 +214,7 @@ impl UDPMessageBuffer {
                 true
             }
             Some(data_bytes) => {
-                if data_bytes.len() > MAX_DATA_LENGTH {
+                if data_bytes.len() > SIZE_MAX_UDP_MESSAGE_BUFFER_DATA {
                     return false;
                 }
 
@@ -234,7 +234,7 @@ impl UDPMessageBuffer {
     }
 
     pub fn len(&self) -> usize {
-        self.get_data_length() + HEADER_LENGTH
+        self.get_data_length() + SIZE_UDP_MESSAGE_BUFFER_HEADER
     }
 
     pub fn get_data_length(&self) -> usize {
