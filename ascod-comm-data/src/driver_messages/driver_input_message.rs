@@ -1,8 +1,6 @@
 use super::*;
-use crate::{UDPMessageBuffer, UDPMessageCode};
+use crate::{ITransportableMessage, UDPMessageCode};
 use static_assertions::assert_eq_size;
-use std::io::{Error as IOError, ErrorKind as IOErrorKind, Result as IOResult};
-use std::net::Ipv4Addr;
 
 pub const SIZE_DRIVER_INPUT: usize = 0
     + SIZE_DRIVER_INPUT_CARD0
@@ -52,51 +50,24 @@ impl Default for DriverInputMessage {
     }
 }
 
-impl DriverInputMessage {
-    pub fn copy_to_message_buffer(&self, origin_address: Ipv4Addr, message_buffer: &mut UDPMessageBuffer) {
-        message_buffer.set_origin(origin_address);
-        message_buffer.set_message_code(MESSAGE_CODE_DRIVER_INPUT);
-
-        unsafe {
-            message_buffer.set_data(Some(&self.raw[..]));
-        }
+impl ITransportableMessage<DriverInputStructure, SIZE_DRIVER_INPUT> for DriverInputMessage {
+    fn get_raw_buffer(&self) -> &[u8] {
+        unsafe { &self.raw[..] }
     }
 
-    pub fn copy_from_message_buffer(&mut self, message_buffer: &UDPMessageBuffer) -> IOResult<Ipv4Addr> {
-        if message_buffer.get_message_code() != MESSAGE_CODE_DRIVER_INPUT {
-            return Err(IOError::new(IOErrorKind::InvalidData, "Invalid Message Code!"));
-        }
-
-        if message_buffer.get_data_length() != SIZE_DRIVER_INPUT {
-            return Err(IOError::new(IOErrorKind::InvalidData, "Invalid Data Length!"));
-        }
-
-        unsafe {
-            self.raw[..].copy_from_slice(message_buffer.get_data_slice().unwrap());
-        }
-
-        Ok(message_buffer.get_origin())
+    fn get_raw_buffer_mut(&mut self) -> &mut [u8] {
+        unsafe { &mut self.raw[..] }
     }
 
-    pub fn get_updated_structure(
-        &mut self,
-        message_buffer: &UDPMessageBuffer,
-    ) -> IOResult<(Ipv4Addr, DriverInputStructure)> {
-        let origin_address = self.copy_from_message_buffer(message_buffer)?;
-
-        Ok((origin_address, unsafe { self.structured.clone() }))
+    fn get_cloned_structure(&self) -> DriverInputStructure {
+        unsafe { self.structured.clone() }
     }
 
-    pub fn updated_buffer_from_structure(
-        &mut self,
-        origin_address: Ipv4Addr,
-        message_buffer: &mut UDPMessageBuffer,
-        source: DriverInputStructure,
-    ) {
-        unsafe {
-            self.structured = source;
-        }
+    fn get_structure_mut(&mut self) -> &mut DriverInputStructure {
+        unsafe { &mut self.structured }
+    }
 
-        self.copy_to_message_buffer(origin_address, message_buffer);
+    fn get_message_code(&self) -> UDPMessageCode {
+        MESSAGE_CODE_DRIVER_INPUT
     }
 }

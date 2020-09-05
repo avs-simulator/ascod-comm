@@ -248,10 +248,8 @@ impl UDPMessageBuffer {
     }
 
     pub fn get_origin(&self) -> Ipv4Addr {
-        let origin_u32 = (self.raw[0] as u32)
-            | ((self.raw[1] as u32) << 8)
-            | ((self.raw[2] as u32) << 16)
-            | ((self.raw[3] as u32) << 24);
+        let origin_u32 =
+            (self.raw[0] as u32) | ((self.raw[1] as u32) << 8) | ((self.raw[2] as u32) << 16) | ((self.raw[3] as u32) << 24);
         Ipv4Addr::from(origin_u32)
     }
 

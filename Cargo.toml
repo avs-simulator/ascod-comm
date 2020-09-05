@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "ascod-comm-data",
+    "ascod-comm-connector",
 ]
 
 [profile.dev]
@@ -23,7 +24,7 @@ debug-assertions = false
 codegen-units = 1
 panic = 'abort'
 incremental = false
-overflow-checks = false
+overflow-checks = true
 
 [profile.test]
 opt-level = 0

@@ -1,0 +1,10 @@
+[package]
+name = "ascod-comm-connector"
+version = "1.0.0-alpha.0"
+authors = ["Aditya Kresna <aditya.kresna@outlook.co.id>"]
+edition = "2018"
+
+[dependencies]
+ascod-comm-data = { path = "../ascod-comm-data" }
+chrono = { version = "0.4.15", features = ["serde"] }
+crossbeam-queue = "0.2.3"

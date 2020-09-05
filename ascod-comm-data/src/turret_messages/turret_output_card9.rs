@@ -11,11 +11,7 @@ pub struct TurretOutputCard9 {
     #[bitfield(name = "indicator_ecs_gunner_control_box", ty = "libc::uint8_t", bits = "2..=2")]
     #[bitfield(name = "indicator_fcs_gunner_control_box", ty = "libc::uint8_t", bits = "3..=3")]
     #[bitfield(name = "indicator_pcs_gunner_control_box", ty = "libc::uint8_t", bits = "4..=4")]
-    #[bitfield(
-        name = "indicator_firing_ready_gunner_control_box",
-        ty = "libc::uint8_t",
-        bits = "5..=5"
-    )]
+    #[bitfield(name = "indicator_firing_ready_gunner_control_box", ty = "libc::uint8_t", bits = "5..=5")]
     #[bitfield(name = "fan_gunner_control_box", ty = "libc::uint8_t", bits = "6..=6")]
     #[bitfield(name = "safety_laser_gunner_control_box", ty = "libc::uint8_t", bits = "7..=7")]
     #[bitfield(name = "interior_light_red_gunner", ty = "libc::uint8_t", bits = "8..=15")]

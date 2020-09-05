@@ -12,11 +12,7 @@ pub struct DriverInputCard1 {
     #[bitfield(name = "lever_direction", ty = "libc::uint8_t", bits = "6..=8")]
     #[bitfield(name = "power_thermal_monitor", ty = "libc::uint8_t", bits = "9..=9")]
     #[bitfield(name = "selector_day_camera_rear_front", ty = "libc::uint8_t", bits = "10..=10")]
-    #[bitfield(
-        name = "selector_thermal_camera_thermal_front",
-        ty = "libc::uint8_t",
-        bits = "11..=11"
-    )]
+    #[bitfield(name = "selector_thermal_camera_thermal_front", ty = "libc::uint8_t", bits = "11..=11")]
     raw: [u8; SIZE_DRIVER_INPUT_CARD1],
 }
 
